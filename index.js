@@ -17,12 +17,13 @@ app.listen(port, () => {            //server starts listening for any attempts f
 
 const name = 'data.json';
 const m = JSON.parse(fs.readFileSync(name).toString());
-const newData = m.data.data[0].rows;
 
-console.log(newData);
+m.forEach((record) => {
+  record[1].domain = record[1].domain.replaceAll("\n", " -- ");
+});
 
 // m.forEach(function(p) {
 //   p.name = m.name;
 // });
 
-fs.writeFileSync(name, JSON.stringify(newData));
+fs.writeFileSync(name, JSON.stringify(m));
