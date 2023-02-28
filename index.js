@@ -14,20 +14,13 @@ app.listen(port, () => {            //server starts listening for any attempts f
 });
 
 
+// File parsing
+const fileName = 'data-2.json';
+const records = JSON.parse(fs.readFileSync(fileName).toString());
 
-const name = 'data-full.json';
-const m = JSON.parse(fs.readFileSync(name).toString());
-
-const newData = m.slice(250000);
-
-newData.forEach((record) => {
-  record[1].domain = record[1].domain.replaceAll("\n", " -- ");
+const formattedRecords = records.map((record) => {
+  return record[1];
+  // record[1].domain = record[1].domain.replaceAll("\n", " -- ");
 });
 
-console.log(m.length, newData.length);
-
-// m.forEach(function(p) {
-//   p.name = m.name;
-// });
-
-fs.writeFileSync('data-2.json', JSON.stringify(newData));
+fs.writeFileSync('data-2-new.json', JSON.stringify(formattedRecords));
