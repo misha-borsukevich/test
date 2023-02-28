@@ -15,26 +15,39 @@ app.listen(port, () => {            //server starts listening for any attempts f
 
 
 // File parsing
-const fileName = 'data-0-65.json';
+const fileName = 'data-full-formatted.json';
 const records = JSON.parse(fs.readFileSync(fileName).toString());
 
-const newRecords = records.slice(32000);
+const step = 32000;
+const allRecordsLength = records.length;
+
+let currentMinRange = 0;
+let currentMaxRange = Math.min(allRecordsLength, step);
+
+while (currentMinRange < allRecordsLength) {
+  const newRecords = records.slice(currentMinRange, currentMaxRange);
+
+  fs.writeFileSync(`${currentMinRange}-${currentMaxRange}.json`, JSON.stringify(newRecords));
+
+  currentMinRange += step;
+  currentMaxRange += Math.min(allRecordsLength - currentMaxRange, step);
+}
+
+return;
+
+
+// const newRecords = records.slice(32000);
 
 // const newRecords = [];
 
-// newRecords.forEach((record) => {
-  // if (counter > 65000) {
-    // return;
-  // }
+records.forEach((record) => {
+  return record[1];
+  record[1].domain = record[1].domain.replaceAll("\n", " -- ");
 
-  // counter++;
-
-  // return record[1];
-  // record.domain = record.domain.replaceAll("\n", " -- ");
-
+  console.log(record);
   // newRecords.push(record);
-// });
+});
 
-// console.log(newRecords, newRecords.length);
+console.log(records, records.length);
 
-fs.writeFileSync('data-32-65.json', JSON.stringify(newRecords));
+// fs.writeFileSync('data-full-formatted.json', JSON.stringify(newRecords));
