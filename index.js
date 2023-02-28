@@ -15,12 +15,25 @@ app.listen(port, () => {            //server starts listening for any attempts f
 
 
 // File parsing
-const fileName = 'data-2.json';
+const fileName = 'data-1-new.json';
 const records = JSON.parse(fs.readFileSync(fileName).toString());
+let counter = 1;
 
-const formattedRecords = records.map((record) => {
-  return record[1];
-  // record[1].domain = record[1].domain.replaceAll("\n", " -- ");
+const newRecords = records.slice(125000);
+
+newRecords.forEach((record) => {
+  if (counter > 125000) {
+    // return;
+  }
+
+  counter++;
+
+  // return record[1];
+  record.domain = record.domain.replaceAll("\n", " -- ");
+
+  // newRecords.push(record);
 });
 
-fs.writeFileSync('data-2-new.json', JSON.stringify(formattedRecords));
+console.log(newRecords);
+
+fs.writeFileSync('data-1-2-new.json', JSON.stringify(newRecords));
